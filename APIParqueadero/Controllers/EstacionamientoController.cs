@@ -1,5 +1,5 @@
-﻿using APIParqueadero.ApplicationCore.Interfaces;
-using APIParqueadero.ApplicationCore.Models;
+﻿using APIParqueadero.Api.Interfaces;
+using APIParqueadero.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIParqueadero.Api.Controllers

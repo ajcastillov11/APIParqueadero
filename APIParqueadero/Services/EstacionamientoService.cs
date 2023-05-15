@@ -1,6 +1,6 @@
 ﻿using APIParqueadero.Api.Data;
-using APIParqueadero.ApplicationCore.Interfaces;
-using APIParqueadero.ApplicationCore.Models;
+using APIParqueadero.Api.Interfaces;
+using APIParqueadero.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace APIParqueadero.Api.Services

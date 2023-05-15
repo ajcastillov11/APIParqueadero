@@ -1,4 +1,4 @@
-﻿using APIParqueadero.ApplicationCore.Models;
+﻿using APIParqueadero.Api.Models;
 
 namespace APIParqueadero.Api.Interfaces
 {

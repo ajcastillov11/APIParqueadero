@@ -1,6 +1,6 @@
-using APIParqueadero.ApplicationCore.Data;
-using APIParqueadero.ApplicationCore.Interfaces;
-using APIParqueadero.ApplicationCore.Services;
+using APIParqueadero.Api.Data;
+using APIParqueadero.Api.Interfaces;
+using APIParqueadero.Api.Services;
 using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);

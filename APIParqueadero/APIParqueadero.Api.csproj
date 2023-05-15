@@ -31,11 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\APIParqueadero.Infrastructure\APIParqueadero.Infrastructure.csproj" />
+    <ProjectReference Include="..\APIParqueadero.ApplicationCore\APIParqueadero.ApplicationCore.csproj" />
   </ItemGroup>
 
 </Project>

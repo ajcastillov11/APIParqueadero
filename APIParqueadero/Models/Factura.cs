@@ -7,6 +7,7 @@ namespace APIParqueadero.Api.Models
 	{
 		[Key]
 		public int Id { get; set; }
+		public string? NumeroFactura { get; set; }
 		public DateTime FechaIngreso { get; set; }
 		public DateTime? FechaSalida { get; set; }
 		public decimal ValorPagado { get; set; }

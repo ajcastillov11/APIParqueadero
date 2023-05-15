@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APIParqueadero.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230515050911_AddItems23")]
-    partial class AddItems23
+    [Migration("20230515135634_AddItems1")]
+    partial class AddItems1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,37 +24,6 @@ namespace APIParqueadero.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("APIParqueadero.Api.Models.Factura", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Estado")
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
-
-                    b.Property<DateTime>("FechaIngreso")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaSalida")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("ValorPagado")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("VehiculoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("VehiculoId");
-
-                    b.ToTable("Facturas");
-                });
 
             modelBuilder.Entity("APIParqueadero.Api.Models.TipoVehiculo", b =>
                 {
@@ -85,47 +54,50 @@ namespace APIParqueadero.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FacturaNumero")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaIngreso")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaSalida")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("NombreResponsable")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<string>("NumeroFacturaSupermercado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Placa")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<long>("Telefono")
-                        .HasColumnType("bigint");
+                    b.Property<bool>("RealizoCompraSupermercado")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TipoVehiculoId")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("ValorPagado")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("TipoVehiculoId");
-
                     b.ToTable("Vehiculos");
-                });
-
-            modelBuilder.Entity("APIParqueadero.Api.Models.Factura", b =>
-                {
-                    b.HasOne("APIParqueadero.Api.Models.Vehiculo", "Vehiculo")
-                        .WithMany()
-                        .HasForeignKey("VehiculoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Vehiculo");
-                });
-
-            modelBuilder.Entity("APIParqueadero.Api.Models.Vehiculo", b =>
-                {
-                    b.HasOne("APIParqueadero.Api.Models.TipoVehiculo", "TipoVehiculo")
-                        .WithMany()
-                        .HasForeignKey("TipoVehiculoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TipoVehiculo");
                 });
 #pragma warning restore 612, 618
         }

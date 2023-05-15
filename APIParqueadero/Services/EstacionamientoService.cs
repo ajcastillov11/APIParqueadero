@@ -7,7 +7,7 @@ namespace APIParqueadero.Api.Services
 {
 	public class EstacionamientoService : IEstacionamientoService
 	{
-		private DataContext _context;
+		private readonly DataContext _context;
 
 		public EstacionamientoService(DataContext context)
 		{
@@ -16,24 +16,41 @@ namespace APIParqueadero.Api.Services
 
 		public async Task RegistrarIngreso(Vehiculo vehiculo)
 		{
-			Vehiculo? vehiculoAux;
-
-			if (VehiculoExiste(vehiculo.Placa))
+			try
 			{
-				vehiculoAux = await _context.Vehiculos.FirstOrDefaultAsync(x => !string.IsNullOrEmpty(x.Placa) && x.Placa.Equals(vehiculo.Placa));
+				Vehiculo? vehiculoAux = VehiculoExiste(vehiculo.Placa)
+					? await _context.Vehiculos.FirstOrDefaultAsync(x => !string.IsNullOrEmpty(x.Placa) && x.Placa.Equals(vehiculo.Placa))
+					: await RegistrarVehiculo(vehiculo);
+
+				await Crearfactura(vehiculoAux);
 			}
-			else
+			catch (Exception ex)
 			{
-				vehiculoAux = await RegistrarVehiculo(vehiculo);
+
+				throw;
 			}
 
+		}
 
+		private async Task Crearfactura(Vehiculo? vehiculoAux)
+		{
+			Factura factura = new()
+			{
+				Estado = "A",
+				FechaIngreso = DateTime.Now,
+				ValorPagado = 0,
+				VehiculoId = vehiculoAux.Id,
+			};
+
+			_context.Facturas.Add(factura);
+
+			await _context.SaveChangesAsync();
 
 		}
 
 		private async Task<Vehiculo> RegistrarVehiculo(Vehiculo vehiculo)
 		{
-			var dto = _context.Vehiculos.Add(vehiculo);
+			Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<Vehiculo> dto = _context.Vehiculos.Add(vehiculo);
 			await _context.SaveChangesAsync();
 			return dto.Entity;
 		}

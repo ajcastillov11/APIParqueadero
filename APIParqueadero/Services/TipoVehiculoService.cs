@@ -16,6 +16,16 @@ namespace APIParqueadero.Api.Services
 
 		public async Task<IEnumerable<TipoVehiculo>> GetTiposVehiculos()
 		{
+			//TipoVehiculo tipo = new()
+			//{
+			//	Nombre = "Carro",
+			//	Tarifa = 110
+
+			//};
+
+			//_context.TiposVehiculos.Add(tipo);
+			//await _context.SaveChangesAsync();
+
 			return await _context.TiposVehiculos.ToListAsync();
 		}
 	}

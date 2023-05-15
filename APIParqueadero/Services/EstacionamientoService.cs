@@ -26,7 +26,7 @@ namespace APIParqueadero.Api.Services
 					throw new Exception("Usted tiene una factura pendiente por liquidar.");
 				}
 
-				await RegistrarVehiculo(vehiculo);
+				_ = await RegistrarVehiculo(vehiculo);
 			}
 			catch (Exception ex)
 			{
@@ -52,16 +52,31 @@ namespace APIParqueadero.Api.Services
 				ValorPagado = 0,
 				FacturaNumero = Extensiones.GenerarNumeroFactura(idFactura.ToString()),
 				NumeroFacturaSupermercado = string.Empty,
-				RealizoCompraSupermercado = false
 			};
 
 			Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<Vehiculo> dto = _context.Vehiculos.Add(vehiculoEntidad);
-			await _context.SaveChangesAsync();
+			_ = await _context.SaveChangesAsync();
 			return dto.Entity;
 		}
 
-		private async Task<Vehiculo?> VehiculoExistente(string placa)
-		 => await _context.Vehiculos.FirstOrDefaultAsync(e => e.Placa == placa && e.FechaSalida == null);
+		public async Task<Vehiculo?> VehiculoExistente(string placa)
+		{
+			return await _context.Vehiculos.FirstOrDefaultAsync(e => e.Placa == placa && e.FechaSalida == null);
+		}
 
+		public async Task LiquidarEstacionamiento(LiquidacionDto liquidacionDto, Vehiculo vehiculo)
+		{
+			int minutos = DateTime.Now.Subtract(vehiculo.FechaIngreso).Minutes;
+
+			TipoVehiculo? tipoVehiculo = await _context.TiposVehiculos.FirstOrDefaultAsync(x => x.Id == vehiculo.TipoVehiculoId);
+
+			double? valorPagar = tipoVehiculo?.Tarifa * minutos;
+
+
+			if (!string.IsNullOrEmpty(liquidacionDto.FacturaCompraSuperMercado))
+			{
+				valorPagar *= 0.30;
+			}
+		}
 	}
 }

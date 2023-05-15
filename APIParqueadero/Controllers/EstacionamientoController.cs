@@ -34,36 +34,26 @@ namespace APIParqueadero.Api.Controllers
 		//	return vehiculo;
 		//}
 
-		//// PUT: api/Vehiculoes/5
-		//// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-		//[HttpPut("{id}")]
-		//public async Task<IActionResult> PutVehiculo(int id, Vehiculo vehiculo)
-		//{
-		//	if (id != vehiculo.Id)
-		//	{
-		//		return BadRequest();
-		//	}
+		[HttpPut("Liquidar")]
+		public async Task<IActionResult> LiquidarEstacionamiento(LiquidacionDto liquidacionDto)
+		{
+			try
+			{
+				Models.Vehiculo? vehiculo = await _estacionamientoService.VehiculoExistente(liquidacionDto.Placa);
+				if (vehiculo == null)
+				{
+					return NotFound($"El vehiculo con placas {liquidacionDto.Placa} no se encuentra registrado en este paqueadero");
+				}
 
-		//	_context.Entry(vehiculo).State = EntityState.Modified;
+				await _estacionamientoService.LiquidarEstacionamiento(liquidacionDto, vehiculo);
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
 
-		//	try
-		//	{
-		//		await _context.SaveChangesAsync();
-		//	}
-		//	catch (DbUpdateConcurrencyException)
-		//	{
-		//		if (!VehiculoExists(id))
-		//		{
-		//			return NotFound();
-		//		}
-		//		else
-		//		{
-		//			throw;
-		//		}
-		//	}
-
-		//	return NoContent();
-		//}
+			return NoContent();
+		}
 
 		[HttpPost("RegistrarIngreso")]
 		public async Task<ActionResult<string>> PostVehiculo(VehiculoDto vehiculo)

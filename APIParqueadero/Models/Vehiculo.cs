@@ -17,7 +17,6 @@ namespace APIParqueadero.Api.Models
 		public DateTime? FechaSalida { get; set; }
 		public decimal ValorPagado { get; set; }
 		public string Estado { get; set; } = string.Empty;
-		public bool RealizoCompraSupermercado { get; set; }
 		public string NumeroFacturaSupermercado { get; set; } = string.Empty;
 	}
 }

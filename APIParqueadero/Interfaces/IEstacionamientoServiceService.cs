@@ -7,7 +7,7 @@ namespace APIParqueadero.Api.Interfaces
 	{
 		Task<List<VehiculosDto>> GetListadoVehiculos(DateTime fechaInicial, DateTime fechaFinal);
 		Task<string> LiquidarEstacionamiento(LiquidacionDto liquidacionDto, Vehiculo vehiculo);
-		Task RegistrarIngreso(VehiculoDto vehiculo);
+		Task<string> RegistrarIngreso(VehiculoDto vehiculo);
 		Task<Vehiculo?> VehiculoExistente(string placa);
 	}
 }

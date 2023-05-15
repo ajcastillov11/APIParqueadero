@@ -62,9 +62,7 @@ namespace APIParqueadero.Api.Controllers
 				return Problem("El request no puede ser vacio.");
 			}
 
-			await _estacionamientoService.RegistrarIngreso(vehiculo);
-
-			return $"Vehículo  con placas {vehiculo.Placa} registrado correctamente";
+			return Ok(await _estacionamientoService.RegistrarIngreso(vehiculo));
 		}
 	}
 }

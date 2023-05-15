@@ -16,7 +16,7 @@ namespace APIParqueadero.Api.Services
 			_context = context;
 		}
 
-		public async Task RegistrarIngreso(VehiculoDto vehiculo)
+		public async Task<string> RegistrarIngreso(VehiculoDto vehiculo)
 		{
 			try
 			{
@@ -27,6 +27,8 @@ namespace APIParqueadero.Api.Services
 				}
 
 				_ = await RegistrarVehiculo(vehiculo);
+
+				return $"Vehículo con placas {vehiculo.Placa} registrado correctamente";
 			}
 			catch (Exception ex)
 			{
@@ -97,7 +99,7 @@ namespace APIParqueadero.Api.Services
 
 				_ = await _context.SaveChangesAsync();
 
-				return $"Vehiculo con placas {liquidacionDto.Placa} liquidado correctamente, valor a pagar ${valorPagar.Value}";
+				return $"Vehículo con placas {liquidacionDto.Placa} liquidado correctamente, valor a pagar ${valorPagar.Value}";
 			}
 			catch (Exception ex)
 			{

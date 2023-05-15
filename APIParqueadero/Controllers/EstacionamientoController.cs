@@ -34,36 +34,36 @@ namespace APIParqueadero.Api.Controllers
 		//	return vehiculo;
 		//}
 
-		// PUT: api/Vehiculoes/5
-		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-		[HttpPut("{id}")]
-		public async Task<IActionResult> PutVehiculo(int id, Vehiculo vehiculo)
-		{
-			if (id != vehiculo.Id)
-			{
-				return BadRequest();
-			}
+		//// PUT: api/Vehiculoes/5
+		//// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+		//[HttpPut("{id}")]
+		//public async Task<IActionResult> PutVehiculo(int id, Vehiculo vehiculo)
+		//{
+		//	if (id != vehiculo.Id)
+		//	{
+		//		return BadRequest();
+		//	}
 
-			_context.Entry(vehiculo).State = EntityState.Modified;
+		//	_context.Entry(vehiculo).State = EntityState.Modified;
 
-			try
-			{
-				await _context.SaveChangesAsync();
-			}
-			catch (DbUpdateConcurrencyException)
-			{
-				if (!VehiculoExists(id))
-				{
-					return NotFound();
-				}
-				else
-				{
-					throw;
-				}
-			}
+		//	try
+		//	{
+		//		await _context.SaveChangesAsync();
+		//	}
+		//	catch (DbUpdateConcurrencyException)
+		//	{
+		//		if (!VehiculoExists(id))
+		//		{
+		//			return NotFound();
+		//		}
+		//		else
+		//		{
+		//			throw;
+		//		}
+		//	}
 
-			return NoContent();
-		}
+		//	return NoContent();
+		//}
 
 		[HttpPost("RegistrarIngreso")]
 		public async Task<ActionResult<string>> PostVehiculo(Vehiculo vehiculo)

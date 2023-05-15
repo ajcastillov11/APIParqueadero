@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace APIParqueadero.Models
+namespace APIParqueadero.ApplicationCore.Models
 {
     public class Factura
     {

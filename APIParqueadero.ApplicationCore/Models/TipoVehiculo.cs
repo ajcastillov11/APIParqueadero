@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace APIParqueadero.Models
+namespace APIParqueadero.ApplicationCore.Models
 {
     public class TipoVehiculo
     {

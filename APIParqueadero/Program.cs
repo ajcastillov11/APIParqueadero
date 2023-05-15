@@ -1,4 +1,4 @@
-using APIParqueadero.Data;
+using APIParqueadero.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

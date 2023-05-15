@@ -10,6 +10,6 @@ namespace APIParqueadero.Api.Models
 		[Required]
 		[MinLength(3)]
 		public string Nombre { get; set; } = string.Empty;
-		public decimal Tarifa { get; set; }
+		public double Tarifa { get; set; }
 	}
 }

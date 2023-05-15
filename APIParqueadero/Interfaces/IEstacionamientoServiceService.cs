@@ -1,9 +1,13 @@
 ﻿using APIParqueadero.Api.Dto;
+using APIParqueadero.Api.Models;
 
 namespace APIParqueadero.Api.Interfaces
 {
 	public interface IEstacionamientoService
 	{
-		Task RegistrarIngreso(VehiculoDto vehiculo);
+		Task<List<VehiculosDto>> GetListadoVehiculos(DateTime fechaInicial, DateTime fechaFinal);
+		Task<string> LiquidarEstacionamiento(LiquidacionDto liquidacionDto, Vehiculo vehiculo);
+		Task<string> RegistrarIngreso(VehiculoDto vehiculo);
+		Task<Vehiculo?> VehiculoExistente(string placa);
 	}
 }

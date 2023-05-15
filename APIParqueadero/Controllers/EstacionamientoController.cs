@@ -15,67 +15,54 @@ namespace APIParqueadero.Api.Controllers
 			_estacionamientoService = vehiculoService;
 		}
 
+		[HttpGet("ListadoVehiculos")]
+		public async Task<ActionResult<List<VehiculosDto>>> GetVehiculos(DateTime fechaInicial, DateTime fechaFinal)
+		{
+			try
+			{
+				List<VehiculosDto> listaVehiculos = await _estacionamientoService.GetListadoVehiculos(fechaInicial, fechaFinal);
+				return Ok(listaVehiculos);
+			}
+			catch (Exception ex)
+			{
 
-		//// GET: api/Vehiculoes/5
-		//[HttpGet("{id}")]
-		//public async Task<ActionResult<Vehiculo>> GetVehiculo(int id)
-		//{
-		//	if (_context.Vehiculos == null)
-		//	{
-		//		return NotFound();
-		//	}
-		//	var vehiculo = await _context.Vehiculos.FindAsync(id);
+				throw new Exception(ex.Message);
+			}
+		}
 
-		//	if (vehiculo == null)
-		//	{
-		//		return NotFound();
-		//	}
+		[HttpPut("Liquidar")]
+		public async Task<ActionResult<string>> LiquidarEstacionamiento(LiquidacionDto liquidacionDto)
+		{
+			try
+			{
+				if (liquidacionDto is null)
+				{
+					return Problem("El request no puede ser vacio.");
+				}
 
-		//	return vehiculo;
-		//}
+				Models.Vehiculo? vehiculo = await _estacionamientoService.VehiculoExistente(liquidacionDto.Placa);
+				if (vehiculo == null)
+				{
+					return NotFound($"El Vehículo con placas {liquidacionDto.Placa} no se encuentra registrado en este paqueadero");
+				}
 
-		//// PUT: api/Vehiculoes/5
-		//// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-		//[HttpPut("{id}")]
-		//public async Task<IActionResult> PutVehiculo(int id, Vehiculo vehiculo)
-		//{
-		//	if (id != vehiculo.Id)
-		//	{
-		//		return BadRequest();
-		//	}
-
-		//	_context.Entry(vehiculo).State = EntityState.Modified;
-
-		//	try
-		//	{
-		//		await _context.SaveChangesAsync();
-		//	}
-		//	catch (DbUpdateConcurrencyException)
-		//	{
-		//		if (!VehiculoExists(id))
-		//		{
-		//			return NotFound();
-		//		}
-		//		else
-		//		{
-		//			throw;
-		//		}
-		//	}
-
-		//	return NoContent();
-		//}
+				return Ok(await _estacionamientoService.LiquidarEstacionamiento(liquidacionDto, vehiculo));
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
 
 		[HttpPost("RegistrarIngreso")]
-		public async Task<ActionResult<string>> PostVehiculo(VehiculoDto vehiculo)
+		public async Task<ActionResult<string>> RegistrarIngreso(VehiculoDto vehiculo)
 		{
 			if (vehiculo is null)
 			{
 				return Problem("El request no puede ser vacio.");
 			}
 
-			await _estacionamientoService.RegistrarIngreso(vehiculo);
-
-			return $"Vehiculo con placas {vehiculo.Placa} registrado correctamente";
+			return Ok(await _estacionamientoService.RegistrarIngreso(vehiculo));
 		}
 	}
 }

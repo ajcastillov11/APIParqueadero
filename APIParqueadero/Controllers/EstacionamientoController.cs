@@ -1,5 +1,5 @@
-﻿using APIParqueadero.Api.Interfaces;
-using APIParqueadero.Api.Models;
+﻿using APIParqueadero.Api.Dto;
+using APIParqueadero.Api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIParqueadero.Api.Controllers
@@ -66,7 +66,7 @@ namespace APIParqueadero.Api.Controllers
 		//}
 
 		[HttpPost("RegistrarIngreso")]
-		public async Task<ActionResult<string>> PostVehiculo(Vehiculo vehiculo)
+		public async Task<ActionResult<string>> PostVehiculo(VehiculoDto vehiculo)
 		{
 			if (vehiculo is null)
 			{

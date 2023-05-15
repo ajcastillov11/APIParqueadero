@@ -1,9 +1,9 @@
-﻿using APIParqueadero.Api.Models;
+﻿using APIParqueadero.Api.Dto;
 
 namespace APIParqueadero.Api.Interfaces
 {
 	public interface IEstacionamientoService
 	{
-		Task RegistrarIngreso(Vehiculo vehiculo);
+		Task RegistrarIngreso(VehiculoDto vehiculo);
 	}
 }

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace APIParqueadero.Api.Models
 {
@@ -12,9 +11,13 @@ namespace APIParqueadero.Api.Models
 		public int TipoVehiculoId { get; set; }
 		[StringLength(150)]
 		public string? NombreResponsable { get; set; }
-		public long Telefono { get; set; }
-
-		[ForeignKey("TipoVehiculoId")]
-		public TipoVehiculo? TipoVehiculo { get; set; }
+		public string? Telefono { get; set; }
+		public string? FacturaNumero { get; set; }
+		public DateTime FechaIngreso { get; set; }
+		public DateTime? FechaSalida { get; set; }
+		public decimal ValorPagado { get; set; }
+		public string? Estado { get; set; }
+		public bool RealizoCompraSupermercado { get; set; }
+		public string? NumeroFacturaSupermercado { get; set; }
 	}
 }

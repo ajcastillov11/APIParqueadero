@@ -4,6 +4,7 @@ using APIParqueadero.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APIParqueadero.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230515113004_AddItems344436")]
+    partial class AddItems344436
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,44 @@ namespace APIParqueadero.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("APIParqueadero.Api.Models.Factura", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Estado")
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
+
+                    b.Property<DateTime>("FechaIngreso")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaSalida")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NumeroFactura")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumeroFacturaSupermercado")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("RealizoCompraSupermercado")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("ValorPagado")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("VehiculoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Facturas");
+                });
 
             modelBuilder.Entity("APIParqueadero.Api.Models.TipoVehiculo", b =>
                 {
@@ -51,40 +92,19 @@ namespace APIParqueadero.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Estado")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FacturaNumero")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("FechaIngreso")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaSalida")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("NombreResponsable")
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("NumeroFacturaSupermercado")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Placa")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<bool>("RealizoCompraSupermercado")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Telefono")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("Telefono")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("TipoVehiculoId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("ValorPagado")
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 

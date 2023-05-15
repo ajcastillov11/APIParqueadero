@@ -1,4 +1,6 @@
 ﻿using APIParqueadero.Api.Data;
+using APIParqueadero.Api.Dto;
+using APIParqueadero.Api.Helpers.Extensions;
 using APIParqueadero.Api.Interfaces;
 using APIParqueadero.Api.Models;
 using Microsoft.EntityFrameworkCore;
@@ -14,49 +16,51 @@ namespace APIParqueadero.Api.Services
 			_context = context;
 		}
 
-		public async Task RegistrarIngreso(Vehiculo vehiculo)
+		public async Task RegistrarIngreso(VehiculoDto vehiculo)
 		{
 			try
 			{
-				Vehiculo? vehiculoAux = VehiculoExiste(vehiculo.Placa)
-					? await _context.Vehiculos.FirstOrDefaultAsync(x => !string.IsNullOrEmpty(x.Placa) && x.Placa.Equals(vehiculo.Placa))
-					: await RegistrarVehiculo(vehiculo);
+				if (VehiculoExiste(vehiculo.Placa))
+				{
+					throw new Exception("Usted tiene una factura pendiente por liquidar");
+				}
 
-				await Crearfactura(vehiculoAux);
+				await RegistrarVehiculo(vehiculo);
 			}
 			catch (Exception ex)
 			{
 
-				throw;
+				throw new Exception(ex.Message);
 			}
 
 		}
 
-		private async Task Crearfactura(Vehiculo? vehiculoAux)
+		private async Task<Vehiculo> RegistrarVehiculo(VehiculoDto vehiculo)
 		{
-			Factura factura = new()
+			int idFactura = await _context.Vehiculos.OrderByDescending(x => x.Id).Select(x => x.Id).FirstOrDefaultAsync();
+
+			idFactura++;
+			Vehiculo vehiculoEntidad = new()
 			{
+				Placa = vehiculo.Placa,
+				NombreResponsable = vehiculo.NombreResponsable,
+				Telefono = vehiculo.Telefono,
+				TipoVehiculoId = vehiculo.TipoVehiculoId,
 				Estado = "A",
 				FechaIngreso = DateTime.Now,
 				ValorPagado = 0,
-				VehiculoId = vehiculoAux.Id,
+				FacturaNumero = Extensiones.GenerarNumeroFactura(idFactura.ToString()),
+				NumeroFacturaSupermercado = string.Empty,
+				RealizoCompraSupermercado = false
 			};
 
-			_context.Facturas.Add(factura);
-
-			await _context.SaveChangesAsync();
-
-		}
-
-		private async Task<Vehiculo> RegistrarVehiculo(Vehiculo vehiculo)
-		{
-			Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<Vehiculo> dto = _context.Vehiculos.Add(vehiculo);
+			Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<Vehiculo> dto = _context.Vehiculos.Add(vehiculoEntidad);
 			await _context.SaveChangesAsync();
 			return dto.Entity;
 		}
 
 		private bool VehiculoExiste(string? placa)
-			=> (_context.Vehiculos?.Any(e => e.Placa == placa)).GetValueOrDefault();
+			=> (_context.Vehiculos?.Any(e => e.Placa == placa && e.Estado == "A")).GetValueOrDefault();
 
 	}
 }

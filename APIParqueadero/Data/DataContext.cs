@@ -1,7 +1,7 @@
 ﻿using APIParqueadero.ApplicationCore.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace APIParqueadero.ApplicationCore.Data
+namespace APIParqueadero.Api.Data
 {
 	public class DataContext : DbContext
 	{

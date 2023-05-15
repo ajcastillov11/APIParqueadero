@@ -1,9 +1,9 @@
-﻿using APIParqueadero.ApplicationCore.Data;
+﻿using APIParqueadero.Api.Data;
 using APIParqueadero.ApplicationCore.Interfaces;
 using APIParqueadero.ApplicationCore.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace APIParqueadero.ApplicationCore.Services
+namespace APIParqueadero.Api.Services
 {
 	public class EstacionamientoService : IEstacionamientoService
 	{

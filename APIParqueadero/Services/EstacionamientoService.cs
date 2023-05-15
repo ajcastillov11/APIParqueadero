@@ -20,9 +20,10 @@ namespace APIParqueadero.Api.Services
 		{
 			try
 			{
-				if (VehiculoExiste(vehiculo.Placa))
+				Vehiculo? vehiculoExistente = await VehiculoExistente(vehiculo.Placa);
+				if (vehiculoExistente != null)
 				{
-					throw new Exception("Usted tiene una factura pendiente por liquidar");
+					throw new Exception("Usted tiene una factura pendiente por liquidar.");
 				}
 
 				await RegistrarVehiculo(vehiculo);
@@ -59,8 +60,8 @@ namespace APIParqueadero.Api.Services
 			return dto.Entity;
 		}
 
-		private bool VehiculoExiste(string? placa)
-			=> (_context.Vehiculos?.Any(e => e.Placa == placa && e.Estado == "A")).GetValueOrDefault();
+		private async Task<Vehiculo?> VehiculoExistente(string placa)
+		 => await _context.Vehiculos.FirstOrDefaultAsync(e => e.Placa == placa && e.FechaSalida == null);
 
 	}
 }

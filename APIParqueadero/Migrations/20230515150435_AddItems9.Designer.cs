@@ -4,6 +4,7 @@ using APIParqueadero.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APIParqueadero.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230515150435_AddItems9")]
+    partial class AddItems9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,9 +86,6 @@ namespace APIParqueadero.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TiempoParqueo")
-                        .HasColumnType("int");
-
                     b.Property<int>("TipoVehiculoId")
                         .HasColumnType("int");
 
@@ -94,20 +94,7 @@ namespace APIParqueadero.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TipoVehiculoId");
-
                     b.ToTable("Vehiculos");
-                });
-
-            modelBuilder.Entity("APIParqueadero.Api.Models.Vehiculo", b =>
-                {
-                    b.HasOne("APIParqueadero.Api.Models.TipoVehiculo", "TipoVehiculo")
-                        .WithMany()
-                        .HasForeignKey("TipoVehiculoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TipoVehiculo");
                 });
 #pragma warning restore 612, 618
         }
